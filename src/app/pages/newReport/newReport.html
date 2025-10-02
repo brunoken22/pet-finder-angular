@@ -1,0 +1,51 @@
+<div class="my-8 max-w-4xl m-auto">
+  <h1 class="mb-8 font-bold text-3xl text-center">Reportar mascota</h1>
+  <form action="" [formGroup]="newReport" id="newReport" (submit)="handleSubmit($event)">
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="text"
+        name="fullName"
+        id="fullName"
+        for="fullName"
+        formControlName="fullName"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="fullName"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blbue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >Nombre <span class="text-red-600">*</span></label
+      >
+    </div>
+    <div class="my-8">
+      <label class="block mb-2 text-sm font-medium text-gray-9 text-center" for="photo"
+        >Subir foto <span class="text-red-600">*</span></label
+      >
+      <input
+        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+        aria-describedby="user_avatar_help"
+        name="photo"
+        for="photo"
+        id="photo"
+        type="file"
+        (change)="onFileChange($event)"
+        accept="image/*"
+        formControlName="photo"
+        required
+      />
+    </div>
+
+    <div class="my-8 w-full">
+      <app-google-maps
+        [newReportForm]="newReport"
+        class="w-full"
+        (centerChange)="onCenterChange($event)"
+      />
+    </div>
+    @if (validation) {
+    <p class="text-red-500 text-center my-4">Por favor, complete todos los campos requeridos.</p>
+    }
+    <app-button type="submit" title="Reportar" class="mt-8" form="newReport" />
+  </form>
+</div>

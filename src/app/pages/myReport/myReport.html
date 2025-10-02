@@ -1,0 +1,15 @@
+<h1 class="font-bold text-3xl text-center">Mis reportes</h1>
+<div class="flex flex-wrap flex-row gap-4 items-center justify-center p-8 max-md:px-0">
+  @for(pet of this.pets;track pet.id){
+  <div class="h-full grid">
+    <app-petCard
+      class="max-md:w-full"
+      title="{{ pet.name }}"
+      img="{{ pet.img }}"
+      location="{{ pet.lugar }}"
+      id="{{ pet.id }}"
+      (deletePet)="handleDeletePet($event)"
+    />
+  </div>
+  }
+</div>

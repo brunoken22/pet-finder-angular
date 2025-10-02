@@ -1,0 +1,27 @@
+<footer class="bg-white rounded-lg shadow-sm m-4 dark:bg-gray-900">
+  <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+    <span class="text-sm text-white sm:text-center dark:text-white"
+      >© 2025 <a href="https://brunoken.vercel.app/" class="hover:underline">Brunoken™</a>.
+    </span>
+    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0">
+      @if(user().id){
+      <li>
+        <a routerLink="/account" class="hover:underline me-4 md:me-6">Mis datos</a>
+      </li>
+      <li>
+        <a routerLink="/myReport" class="hover:underline me-4 md:me-6">Mis mascotas</a>
+      </li>
+      <li>
+        <a routerLink="/newReport" class="hover:underline me-4 md:me-6">Reportar</a>
+      </li>
+      }@else {
+      <li>
+        <a routerLink="/login" class="hover:underline me-4 md:me-6">Iniciar sesión</a>
+      </li>
+      <li>
+        <a routerLink="/signup" class="hover:underline me-4 md:me-6">Crear cuenta</a>
+      </li>
+      }
+    </ul>
+  </div>
+</footer>
