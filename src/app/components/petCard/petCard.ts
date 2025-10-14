@@ -13,9 +13,15 @@ export class PetCardComponent {
   @Input() location = '';
   @Input() id = '';
   @Input() onClickDelete = () => {};
-  @Output() deletePet = new EventEmitter<string>(); // Cambio importante
+  @Output() deletePet = new EventEmitter<string>();
+  @Input() owner = true;
 
   handleDeletePet() {
     this.deletePet.emit(this.id);
+  }
+
+  handleReportPet() {
+    // this.deletePet.emit(this.id);
+    console.log(this.id);
   }
 }

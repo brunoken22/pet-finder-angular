@@ -10,6 +10,7 @@ import { ModifyPasswordPage } from './pages/account/modify_password/modify_passw
 import { authGuard } from './core/guards/auth-guard';
 import { ModifyReportPage } from './pages/modifyReport/modifyReport';
 import { notAuthGuard } from './core/guards/no_auth-guard';
+import { ReportPage } from './pages/report/report';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,11 @@ export const routes: Routes = [
     canMatch: [notAuthGuard],
     path: 'signup',
     component: SignupPage,
+  },
+  {
+    // canMatch: [notAuthGuard],
+    path: 'report',
+    component: ReportPage,
   },
   {
     canMatch: [authGuard],
@@ -50,6 +56,10 @@ export const routes: Routes = [
   {
     canMatch: [authGuard],
     path: 'modifyReport/:id',
-    component: ModifyReportPage,
+    loadComponent: () =>
+      import('./pages/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
+    data: {
+      renderMode: 'server',
+    },
   },
 ];

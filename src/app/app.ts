@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { NavComponent } from './components/nav/nav';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer';
 import { FlowbiteService } from './core/services/flowbite.service';
 import { initFlowbite } from 'flowbite';
@@ -21,11 +21,13 @@ export class App {
     private localStorageService: LocalStorageService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const LOGIN_PET_FINDER = this.localStorageService.getItem('LOGIN_PET_FINDER');
+
     if (LOGIN_PET_FINDER) {
-      this.userService.update(true);
+      await this.userService.update(true);
     }
+
     this.flowbiteService.loadFlowbite((flowbite) => {
       initFlowbite();
     });

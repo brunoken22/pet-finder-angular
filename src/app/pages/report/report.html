@@ -1,8 +1,8 @@
-<h1 class="font-bold text-3xl text-center">Mis reportes</h1>
+<h1 class="font-bold text-3xl text-center">Reportes de mascotas por tu ubicación</h1>
 <div
   class="flex-wrap flex-row gap-4 items-center justify-center p-8 max-md:px-0 grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1"
 >
-  @for(pet of this.pets;track pet.id){
+  @for(pet of this.pets;track pet.objectID ){
   <div class="h-full grid">
     <app-petCard
       class="max-md:w-full"
@@ -11,6 +11,7 @@
       location="{{ pet.lugar }}"
       id="{{ pet.id }}"
       (deletePet)="handleDeletePet($event)"
+      [owner]="false"
     />
   </div>
   } @if(loading){

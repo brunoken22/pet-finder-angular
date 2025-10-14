@@ -1,5 +1,10 @@
-import { Component, Input, Output, signal, EventEmitter, effect } from '@angular/core';
-import { ɵInternalFormsSharedModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import {
+  ɵInternalFormsSharedModule,
+  ReactiveFormsModule,
+  FormGroup,
+  FormGroupDirective,
+} from '@angular/forms';
 import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
@@ -9,30 +14,30 @@ import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 })
 export class GoogleMapsComponent {
   @Input() newReportForm: FormGroup | null = null;
-  @Input() center = signal<google.maps.LatLngLiteral>({ lat: -34.61315, lng: -58.37723 });
   @Output() centerChange = new EventEmitter<google.maps.LatLngLiteral>();
 
   zoom = 12;
   markerOptions: google.maps.MarkerOptions = { draggable: false };
 
   private geocoder = new google.maps.Geocoder();
+  private formGroupDirective = inject(FormGroupDirective);
 
-  constructor() {
-    effect(() => {
-      console.log(`Este es el efecto secundario de CENTER: `, this.newReportForm?.value);
-    });
+  ngOnInit() {
+    // Usar el formulario del padre a través del FormGroupDirective
+    this.newReportForm = this.formGroupDirective.form;
   }
+
   moveMap(event: google.maps.MapMouseEvent) {
-    const center = event?.latLng?.toJSON() || this.center();
+    const center = event?.latLng?.toJSON() || this.newReportForm?.value.center;
     this.centerChange.emit(center);
-    this.center.set(center);
+    // this.center.set(center);
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
-    const position = event.latLng?.toJSON() || this.center();
+    const position = event.latLng?.toJSON() || this.newReportForm?.value.center;
     this.getLocationName(position);
     this.centerChange.emit(position);
-    this.center.set(position);
+    // this.center.set(position);
   }
 
   getLocationName(position: google.maps.LatLngLiteral) {
@@ -85,9 +90,10 @@ export class GoogleMapsComponent {
       const data = new google.maps.places.Autocomplete(autocomplete);
       data.addListener('place_changed', () => {
         const place = data.getPlace();
-        const location = place.geometry?.location?.toJSON() || this.center();
+        const location = place.geometry?.location?.toJSON() || this.newReportForm?.value.center;
         this.newReportForm?.get('googleMaps')?.setValue(place.formatted_address);
-        this.center.set(location);
+        // this.center.set(location);
+        this.newReportForm?.get('center')?.setValue(location);
         this.centerChange.emit(location);
       });
     }

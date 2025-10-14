@@ -1,19 +1,22 @@
 <google-map
-  [center]="center()"
+  [center]="newReportForm?.value.center"
   [zoom]="zoom"
   height="400px"
   width="100%"
   (mapClick)="addMarker($event)"
 >
-  <map-marker [position]="center()" [options]="markerOptions" />
+  <map-marker [position]="newReportForm?.value.center" [options]="markerOptions" />
 </google-map>
+
+@if(newReportForm?.value.googleMaps){
 <input
   type="text"
   placeholder="Buenos Aires, Argentina"
   id="autocomplete"
   class="mt-4 w-full"
-  formControlName="googleMaps"
   name="googleMaps"
+  [value]="newReportForm?.value.googleMaps"
   (input)="autoComplete($event)"
   required
 />
+}

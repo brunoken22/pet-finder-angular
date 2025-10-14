@@ -1,11 +1,21 @@
-import { Component, ElementRef, inject, Input, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  inject,
+  Input,
+  PLATFORM_ID,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoogleMapsComponent } from '../../components/googleMaps/googleMaps';
 import { ButtonComponent } from '../../components/ui/button/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PetServices } from '../../core/services/pets.service';
 import { LocalStorageService } from '../../core/services/local-storage.service';
-import { CreatePet, Pet, UpdatePet } from '../../core/modules/pet.interface';
+import { UpdatePet } from '../../core/modules/pet.interface';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Component({
   templateUrl: './modifyReport.html',
@@ -22,14 +32,14 @@ export class ModifyReportPage {
     fullName: new FormControl('', [Validators.required]),
     photo: new FormControl<File | string | null>(null, [Validators.required]),
     googleMaps: new FormControl('', [Validators.required]),
-    center: new FormControl<google.maps.LatLngLiteral | null>(null),
+    photoLink: new FormControl(''),
+    center: new FormControl<google.maps.LatLngLiteral | null>({ lat: -34.61315, lng: -58.37723 }),
   });
-
-  center: google.maps.LatLngLiteral = { lat: 10.96854, lng: -74.78132 };
 
   validation = '';
   isSubmitting = false;
   isPet = '';
+
   @ViewChild('photoRef') photoRef!: ElementRef<HTMLInputElement | null>;
 
   async handleSubmit(event: Event) {
@@ -39,13 +49,13 @@ export class ModifyReportPage {
       this.validation = 'Faltan datos para actualizar';
       return;
     }
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const photo = formData.get('photo');
-    const base64Image = await this.convertImageToBase64(photo as File);
+    // const form = event.target as HTMLFormElement;
+    // const formData = new FormData(form);
+    // const photo = formData.get('photo');
+    // const base64Image = await this.convertImageToBase64(photo as File);
     const updatePet: UpdatePet = {
-      ...this.center,
-      img: base64Image,
+      ...this.newReport.value.center!,
+      img: this.newReport.value.photoLink!,
       lugar: this.newReport.value.googleMaps!,
       name: this.newReport.value.fullName!,
     };
@@ -75,10 +85,10 @@ export class ModifyReportPage {
   }
 
   onCenterChange(event: google.maps.LatLngLiteral) {
-    this.center = event;
+    this.newReport.value.center = event;
   }
 
-  onFileChange(event: any) {
+  async onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
       // Validar tipo de archivo
@@ -98,9 +108,19 @@ export class ModifyReportPage {
       this.newReport.patchValue({ photo: file });
       this.validation = '';
     }
+    const base64URL = await this.convertImageToBase64(file);
+    this.newReport.patchValue({ photoLink: base64URL });
   }
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   async ngOnInit(): Promise<void> {
+    if (isPlatformServer(this.platformId)) {
+      console.log('✅ Ejecutándose en SERVER (SSR)');
+    } else if (isPlatformBrowser(this.platformId)) {
+      console.log('✅ Ejecutándose en BROWSER (CSR)');
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.router.navigate(['myReport']);
@@ -114,16 +134,16 @@ export class ModifyReportPage {
       return;
     }
     const fileImg = await this.urlToFile(pet.img, 'mascosta-petFinder.webp');
-    // console.log(this.photoRef);
-    this.newReport.setValue({
+    const newReportResponse = {
       fullName: pet.name,
       photo: fileImg,
       googleMaps: pet.lugar,
       center: { lng: pet.lng, lat: pet.lat },
-    });
-    this.center = { lat: pet.lat, lng: pet.lng };
-    console.log('MODIFYReport', this.newReport.value);
-    // console.log(this.newReport.value);
+      photoLink: pet.img,
+    };
+
+    this.newReport.patchValue(newReportResponse);
+    // console.log('MODIFYReport', newReportResponse);
   }
 
   async urlToFile(url: string, fileName: string, mimeType?: string): Promise<File> {

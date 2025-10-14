@@ -1,19 +1,18 @@
-<div
-  class="max-md:w-full w-sm border border-gray-200 rounded-lg shadow-sm bg-gray-900 dark:border-gray-900 h-full"
->
+<div class="border border-gray-200 rounded-lg shadow-sm bg-gray-900 dark:border-gray-900 h-full">
   <img
-    class="rounded-t-lg h-[250px] w-full object-cover"
+    class="rounded-t-lg h-[250px] w-full object-cover bg-primary"
     src="{{ this.img }}"
     alt="{{ this.title }}"
     title="{{ this.title }}"
   />
-  <div class="p-5">
+  <div class="p-5 flex flex-col justify-between">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
       {{ title }}
     </h5>
     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
       {{ location }}
     </p>
+    @if(owner){
     <div class="flex flex-row justify-between">
       <a
         [routerLink]="['/modifyReport', this.id]"
@@ -37,11 +36,21 @@
         </svg>
       </a>
       <app-button
-        title="Eliminar {{ this.id }}"
+        title="Eliminar"
         color="red"
         id="{{ this.id }}"
         [handleClick]="handleDeletePet.bind(this)"
       />
     </div>
+    } @else {
+    <div class="mt-4 w-full">
+      <app-button
+        title="Reportar"
+        color="red"
+        id="{{ this.id }}"
+        [handleClick]="handleReportPet.bind(this)"
+      />
+    </div>
+    }
   </div>
 </div>

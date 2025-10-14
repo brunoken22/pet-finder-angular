@@ -2,14 +2,18 @@ import { Component } from '@angular/core';
 import { PetServices } from '../../core/services/pets.service';
 import { PetCardComponent } from '../../components/petCard/petCard';
 import { LocalStorageService } from '../../core/services/local-storage.service';
+import { SkeletonCardPet } from '../../components/skeletonCardPet/skeletonCardPet';
 
 @Component({
   templateUrl: './myReport.html',
-  imports: [PetCardComponent],
+  imports: [PetCardComponent, SkeletonCardPet],
 })
 export class MyReportPage {
+  loading = true;
   get pets() {
-    return this.petServices.get();
+    const pets = this.petServices.get();
+    this.loading = false;
+    return pets;
   }
 
   constructor(private petServices: PetServices, private localStorageService: LocalStorageService) {}

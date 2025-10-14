@@ -6,7 +6,6 @@ import baseUrl from '../../utils/baseUrl';
 import { UpdateUser, User } from '../modules/user.interface';
 import { firstValueFrom } from 'rxjs';
 import { PetServices } from './pets.service';
-import { Pet } from '../modules/pet.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +28,7 @@ export class UserService {
     return this.user;
   }
 
-  update(loggedIn: boolean) {
+  async update(loggedIn: boolean) {
     try {
       this.user.update((user) => user);
       if (!loggedIn) {
@@ -38,16 +37,17 @@ export class UserService {
         this.router.navigate(['/login']);
       }
       const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
+      // console.log('Esta es token: ', token);
 
-      this.getUser(token);
+      await this.getUser(token);
     } catch (e) {
       console.error('Este es el error: ', e);
     }
   }
 
   async getUser(token: string | null): Promise<User | null> {
-    // console.log('Obteniendo usuario... 1');
     if (token) {
+      console.log('Obteniendo usuario... 1', token);
       const response: any = await firstValueFrom(
         this.httpClient.get(`${baseUrl}/init/token`, {
           headers: {
@@ -56,8 +56,9 @@ export class UserService {
           },
         })
       );
+      console.log('Obteniendo usuario... 1.5');
       const { Pets, ...userData } = response;
-      // console.log('Obteniendo usuario... 2', Pets, userData);
+      console.log('Obteniendo usuario... 2', userData);
       this.user.set(userData);
       this.petService.pets.set(Pets);
       return response as User;

@@ -1,6 +1,7 @@
 <div class="my-8 max-w-4xl m-auto">
-  <h1 class="mb-8 font-bold text-3xl text-center">Modificar reporte de mascota {{ this.id() }}</h1>
-  <p>Este es el center {{ this.center.lat }} {{ this.center.lng }}</p>
+  <h1 class="mb-8 font-bold text-3xl text-center">
+    Modificar reporte ({{ this.newReport.value.fullName }})
+  </h1>
   <form action="" [formGroup]="newReport" id="newReport" (submit)="handleSubmit($event)">
     <div class="relative z-0 w-full mb-5 group">
       <input
@@ -16,26 +17,85 @@
       <label
         for="fullName"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blbue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >Nombre</label
+        >Nombre <span class="text-red-600">*</span></label
       >
     </div>
     <div class="my-8">
-      <label class="block mb-2 text-sm font-medium text-gray-9 text-center" for="photo"
-        >Subir foto</label
-      >
-      <input
-        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-        aria-describedby="user_avatar_help"
-        name="photo"
-        for="photo"
-        id="photo"
-        type="file"
-        #photoRef
-        required
-      />
+      <p class="mb-2 text-xl block text-gray-9 font-semibold" for="photo">
+        Subir foto <span class="text-red-600">*</span>
+      </p>
+      <div class="flex max-md:flex-wrap w-full gap-8 justify-between h-64 max-md:h-auto">
+        @if(newReport.value.photoLink){
+        <div class="max-md:w-full text-center justify-center flex">
+          <img
+            src="{{ newReport.value.photoLink }}"
+            alt="{{ newReport.value.fullName }}"
+            title="{{ newReport.value.fullName }}"
+            class="h-full object-cover rounded-md"
+          />
+        </div>
+        }
+
+        <!--   <input
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+          aria-describedby="user_avatar_help"
+          name="photo"
+          for="photo"
+          id="photo"
+          type="file"
+          formArrayName="photo"
+          #photoRef
+          required
+        />
+         -->
+        <div class="flex items-center justify-center w-full">
+          <label
+            for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+          >
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg
+                class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 16"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <span class="font-semibold">Cambiar imagen de mascota</span>
+              </p>
+              <!-- <p class="text-xs text-gray-500 dark:text-gray-400">
+                SVG, PNG, JPG or GIF (MAX. 800x400px)
+              </p> -->
+            </div>
+            <input
+              id="dropzone-file"
+              type="file"
+              #photoRef
+              required
+              class="hidden"
+              name="photo"
+              for="photo"
+              (change)="onFileChange($event)"
+            />
+          </label>
+        </div>
+      </div>
     </div>
 
     <div class="my-8 w-full">
+      <p class="mb-2 text-xl block text-gray-9 font-semibold" for="photo">
+        Ubicación <span class="text-red-600">*</span>
+      </p>
+
       <app-google-maps
         [newReportForm]="newReport"
         class="w-full"

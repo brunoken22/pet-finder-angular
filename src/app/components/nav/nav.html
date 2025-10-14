@@ -52,7 +52,7 @@
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >Mascotas reportadas</a
+              >Mis reportes</a
             >
           </li>
           <li>
@@ -107,6 +107,15 @@
       >
         <li>
           <a
+            routerLink="/report"
+            routerLinkActive="text-blue-500 "
+            class="hover:text-blue-500"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Reportes</a
+          >
+        </li>
+        <li>
+          <a
             routerLink="/account"
             routerLinkActive="text-blue-500 "
             class="hover:text-blue-500"
@@ -120,7 +129,7 @@
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="text-blue-500 "
             class="hover:text-blue-500"
-            >Mascotas reportadas</a
+            >Mis reportes</a
           >
         </li>
         <li>
@@ -153,6 +162,13 @@
         <ul class="py-2" aria-labelledby="user-menu-button">
           <li>
             <a
+              routerLink="/report"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+              >Mascotas reportadas</a
+            >
+          </li>
+          <li>
+            <a
               routerLink="/account"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >Mis datos</a
@@ -162,7 +178,7 @@
             <a
               routerLink="/myReport"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >Mascotas reportadas</a
+              >Mis reportes</a
             >
           </li>
           <li>
