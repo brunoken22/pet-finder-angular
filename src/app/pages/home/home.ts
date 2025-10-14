@@ -26,11 +26,13 @@ export class HomePage {
   }
 
   ngOnInit() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      if (latitude && longitude) {
-        this.router.navigate(['report']);
-      }
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        if (latitude && longitude) {
+          this.router.navigate(['report']);
+        }
+      });
+    }
   }
 }
