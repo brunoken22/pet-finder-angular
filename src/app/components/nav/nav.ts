@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../core/services/user.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonComponent } from '../ui/button/button';
@@ -8,7 +8,9 @@ import { ButtonComponent } from '../ui/button/button';
   templateUrl: './nav.html',
   imports: [RouterLink, ButtonComponent, RouterLinkActive],
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
+  private userService = inject(UserService);
+  activeReport = signal(false);
   get user() {
     return this.userService.get();
   }
@@ -17,5 +19,11 @@ export class NavComponent {
     this.userService.update(false);
   }
 
-  constructor(private userService: UserService) {}
+  ngOnInit() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(() => {
+        this.activeReport.update(() => true);
+      });
+    }
+  }
 }

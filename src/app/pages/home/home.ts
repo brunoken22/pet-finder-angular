@@ -1,15 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroMapPin, heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   templateUrl: './home.html',
-  imports: [NgIcon],
+  imports: [NgIcon, RouterLink],
   viewProviders: [provideIcons({ heroMapPin, heroQuestionMarkCircle })],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   router = inject(Router);
+  message = signal('');
+  viewReport = signal(false);
 
   handleGiveUbication() {
     navigator.geolocation.getCurrentPosition(
@@ -19,8 +21,8 @@ export class HomePage {
           this.router.navigate(['report']);
         }
       },
-      (error) => {
-        console.log('Esto es el error: ', error);
+      () => {
+        this.message.set('Tenes que dar permiso para ver mascotas cerca tuyo');
       }
     );
   }
@@ -30,7 +32,7 @@ export class HomePage {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         if (latitude && longitude) {
-          this.router.navigate(['report']);
+          this.viewReport.update(() => true);
         }
       });
     }

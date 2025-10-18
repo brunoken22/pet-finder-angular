@@ -47,7 +47,7 @@ export class UserService {
 
   async getUser(token: string | null): Promise<User | null> {
     if (token) {
-      console.log('Obteniendo usuario... 1', token);
+      // console.log('Obteniendo usuario... 1', token);
       const response: any = await firstValueFrom(
         this.httpClient.get(`${baseUrl}/init/token`, {
           headers: {
@@ -56,9 +56,9 @@ export class UserService {
           },
         })
       );
-      console.log('Obteniendo usuario... 1.5');
+      // console.log('Obteniendo usuario... 1.5');
       const { Pets, ...userData } = response;
-      console.log('Obteniendo usuario... 2', userData);
+      // console.log('Obteniendo usuario... 2', userData);
       this.user.set(userData);
       this.petService.pets.set(Pets);
       return response as User;

@@ -8,9 +8,11 @@ import { NewReportPage } from './pages/newReport/newReport';
 import { ModifyDataPage } from './pages/account/modify_data/modify_data';
 import { ModifyPasswordPage } from './pages/account/modify_password/modify_password';
 import { authGuard } from './core/guards/auth-guard';
-import { ModifyReportPage } from './pages/modifyReport/modifyReport';
 import { notAuthGuard } from './core/guards/no_auth-guard';
 import { ReportPage } from './pages/report/report';
+import { locationReportGuard } from './core/guards/location-report';
+import { LoadingPages } from './components/loadingPages/loadingPages';
+import NotFound from './pages/notFound/notFound';
 
 export const routes: Routes = [
   {
@@ -20,16 +22,19 @@ export const routes: Routes = [
   {
     path: 'login',
     canMatch: [notAuthGuard],
+    title: 'Iniciar cuenta | Pet Finder',
     component: LoginPage,
   },
   {
     canMatch: [notAuthGuard],
     path: 'signup',
+    title: 'Crear cuenta | Pet Finder',
     component: SignupPage,
   },
   {
-    // canMatch: [notAuthGuard],
+    canMatch: [locationReportGuard],
     path: 'report',
+    title: 'Reporte de mascotas | Pet Finder',
     component: ReportPage,
   },
   {
@@ -47,19 +52,27 @@ export const routes: Routes = [
     canMatch: [authGuard],
     path: 'myReport',
     component: MyReportPage,
+    title: 'Mis reportes | Pet Finder',
   },
   {
     canMatch: [authGuard],
     path: 'newReport',
     component: NewReportPage,
+    title: 'Nuevo reporte | Pet Finder',
   },
   {
     canMatch: [authGuard],
     path: 'modifyReport/:id',
+    title: 'NModificar Reporte | Pet Finder',
     loadComponent: () =>
       import('./pages/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
     data: {
       renderMode: 'server',
     },
+  },
+  {
+    path: '**',
+    title: 'No existe | Pet Finder',
+    component: NotFound,
   },
 ];

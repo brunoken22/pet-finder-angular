@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { PetServices } from '../../core/services/pets.service';
 import { PetCardComponent } from '../../components/petCard/petCard';
 import { LocalStorageService } from '../../core/services/local-storage.service';
@@ -11,7 +11,7 @@ import { SkeletonCardPet } from '../../components/skeletonCardPet/skeletonCardPe
   templateUrl: './report.html',
   imports: [PetCardComponent, SkeletonCardPet],
 })
-export class ReportPage {
+export class ReportPage implements OnInit {
   private localStorageService = inject(LocalStorageService);
   private petServices = inject(PetServices);
   private userService = inject(UserService);
@@ -30,12 +30,11 @@ export class ReportPage {
     }
   }
 
-  async ngAfterViewInit() {
+  async ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          // console.log('Este es la posicion de navigator: ', latitude, longitude);
           if (
             !latitude ||
             !longitude ||
@@ -56,11 +55,6 @@ export class ReportPage {
 
           const emailUser = this.userService.get()().email;
 
-          if (!emailUser) {
-            console.error('No se pudo obtener el email del usuario');
-            return;
-          }
-
           // console.log('Este es el mail:', emailUser);
           const dataPets = (await this.petServices.getPetsUbication(
             latitude,
@@ -78,7 +72,7 @@ export class ReportPage {
         },
         (error) => {
           console.error(error);
-          this.router.navigate(['home']);
+          this.router.navigate(['/']);
         }
       );
     }

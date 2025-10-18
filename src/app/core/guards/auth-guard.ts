@@ -14,5 +14,6 @@ export const authGuard: CanMatchFn = async (route: Route, _: UrlSegment[]) => {
   if (user().id) {
     return true;
   }
+
   return router.createUrlTree(['/login']);
 };
