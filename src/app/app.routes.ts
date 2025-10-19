@@ -11,7 +11,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { notAuthGuard } from './core/guards/no_auth-guard';
 import { ReportPage } from './pages/report/report';
 import { locationReportGuard } from './core/guards/location-report';
-import { LoadingPages } from './components/loadingPages/loadingPages';
+// import { LoadingPages } from './components/loadingPages/loadingPages';
 import NotFound from './pages/notFound/notFound';
 
 export const routes: Routes = [

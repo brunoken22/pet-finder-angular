@@ -15,11 +15,8 @@ export class HomePage implements OnInit {
 
   handleGiveUbication() {
     navigator.geolocation.getCurrentPosition(
-      (ubication) => {
-        const { latitude, longitude } = ubication.coords;
-        if (latitude && longitude) {
-          this.router.navigate(['report']);
-        }
+      () => {
+        this.router.navigate(['report']);
       },
       () => {
         this.message.set('Tenes que dar permiso para ver mascotas cerca tuyo');
@@ -27,14 +24,12 @@ export class HomePage implements OnInit {
     );
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        if (latitude && longitude) {
-          this.viewReport.update(() => true);
-        }
-      });
+      const geolocationPermission = await navigator.permissions.query({ name: 'geolocation' });
+      if (geolocationPermission.state === 'granted') {
+        this.viewReport.update(() => true);
+      }
     }
   }
 }
