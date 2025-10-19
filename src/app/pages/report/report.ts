@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { PetServices } from '../../core/services/pets.service';
 import { PetCardComponent } from '../../components/petCard/petCard';
 import { LocalStorageService } from '../../core/services/local-storage.service';
@@ -18,18 +18,30 @@ export class ReportPage implements OnInit {
   private router = inject(Router);
   private cd = inject(ChangeDetectorRef);
 
+  reportPetForId = signal({
+    id: '',
+    fullNamePet: '',
+    message: '',
+    fullName: '',
+    phone: 0,
+  });
+
   pets: Pet[] | [] = [];
   loading = true;
 
-  async handleDeletePet(id: string) {
-    const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
-    if (!token) return;
-    const responseDeletePet = await this.petServices.deletePet(id, token);
-    if (responseDeletePet.petRes) {
-      this.petServices.pets.update((pets) => pets.filter((pet) => pet.id != id));
-    }
+  handleReportPetModal(id: string) {
+    const pet = this.pets.find((pet) => pet.objectID == id);
+    this.reportPetForId.update((report) => ({ ...report, id, fullNamePet: pet?.name || '' }));
   }
 
+  async createReportPetid() {
+    const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
+    // if (!token) return;
+    // const responseDeletePet = await this.petServices.deletePet(id, token);
+    // if (responseDeletePet.petRes) {
+    //   this.petServices.pets.update((pets) => pets.filter((pet) => pet.id != id));
+    // }
+  }
   async ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

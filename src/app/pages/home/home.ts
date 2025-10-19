@@ -14,7 +14,6 @@ export class HomePage implements OnInit {
   viewReport = signal(false);
 
   handleGiveUbication() {
-    console.log('Pidiendo permiso de ubicacion');
     navigator.geolocation.getCurrentPosition(
       () => {
         this.router.navigate(['report']);
