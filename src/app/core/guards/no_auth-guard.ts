@@ -12,7 +12,6 @@ export const notAuthGuard: CanMatchFn = async () => {
   await userService.getUser(token);
   const user = userService.get();
 
-  // console.log('user en noAuthGuard', dataUser);
   // Si el usuario YA está autenticado, redirigir a account
   if (user().id > 0) {
     return router.createUrlTree(['/account']);

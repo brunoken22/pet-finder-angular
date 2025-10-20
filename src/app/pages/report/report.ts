@@ -2,14 +2,28 @@ import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/c
 import { PetServices } from '../../core/services/pets.service';
 import { PetCardComponent } from '../../components/petCard/petCard';
 import { LocalStorageService } from '../../core/services/local-storage.service';
-import { Pet } from '../../core/modules/pet.interface';
+import { Pet, ReportForm } from '../../core/modules/pet.interface';
 import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { SkeletonCardPet } from '../../components/skeletonCardPet/skeletonCardPet';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  ɵInternalFormsSharedModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { ButtonComponent } from '../../components/ui/button/button';
 
 @Component({
   templateUrl: './report.html',
-  imports: [PetCardComponent, SkeletonCardPet],
+  imports: [
+    PetCardComponent,
+    SkeletonCardPet,
+    ɵInternalFormsSharedModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+  ],
 })
 export class ReportPage implements OnInit {
   private localStorageService = inject(LocalStorageService);
@@ -18,30 +32,55 @@ export class ReportPage implements OnInit {
   private router = inject(Router);
   private cd = inject(ChangeDetectorRef);
 
-  reportPetForId = signal({
-    id: '',
-    fullNamePet: '',
-    message: '',
-    fullName: '',
-    phone: 0,
+  reportPetForId = new FormGroup({
+    id: new FormControl('', [Validators.required]),
+    fullNamePet: new FormControl('', [Validators.required]),
+    message: new FormControl('', [Validators.required]),
+    fullName: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required]),
   });
 
+  messageReport = signal('');
   pets: Pet[] | [] = [];
   loading = true;
 
   handleReportPetModal(id: string) {
     const pet = this.pets.find((pet) => pet.objectID == id);
-    this.reportPetForId.update((report) => ({ ...report, id, fullNamePet: pet?.name || '' }));
+    this.reportPetForId.patchValue({ id, fullNamePet: pet?.name });
+    // this.reportPetForId.update((report) => ({ ...report, id, fullNamePet: pet?.name || '' }));
   }
 
-  async createReportPetid() {
-    const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
-    // if (!token) return;
-    // const responseDeletePet = await this.petServices.deletePet(id, token);
-    // if (responseDeletePet.petRes) {
-    //   this.petServices.pets.update((pets) => pets.filter((pet) => pet.id != id));
-    // }
+  handleCloseModal() {
+    this.reportPetForId.reset();
   }
+
+  async createReportPetid(event: Event) {
+    event.preventDefault();
+    const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
+    const { message, fullName, fullNamePet, id, phone } = this.reportPetForId.value;
+    if (!message || !fullName || !fullNamePet || !id || !phone) {
+      this.messageReport.set('Todos los campos son obligatorios');
+      return;
+    }
+    const userPet = this.userService.get()();
+    const reportData: ReportForm = {
+      email: userPet.email,
+      info: message,
+      namePet: fullNamePet,
+      nombre: fullName,
+      nombreRecib: fullName,
+      tel: phone.toString(),
+    };
+
+    const responseDeletePet = await this.petServices.reportPetId(reportData, token);
+    if (responseDeletePet?.send?.code) {
+      this.messageReport.set('Error al enviar el reporte, intente nuevamente o contáctenos');
+      return;
+    }
+    this.reportPetForId.reset();
+    return responseDeletePet;
+  }
+
   async ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -67,13 +106,11 @@ export class ReportPage implements OnInit {
 
           const emailUser = this.userService.get()().email;
 
-          // console.log('Este es el mail:', emailUser);
           const dataPets = (await this.petServices.getPetsUbication(
             latitude,
             longitude,
             emailUser
           )) as any;
-          // console.log(dataPets);
           if (!dataPets[0]?.hits?.length) {
             return;
           }

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { CreatePet, Pet, ResponseGetPetId, UpdatePet } from '../modules/pet.interface';
+import { CreatePet, Pet, ReportForm, ResponseGetPetId, UpdatePet } from '../modules/pet.interface';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import baseUrl from '../../utils/baseUrl';
@@ -52,6 +52,18 @@ export class PetServices {
     return responseCreatePet;
   }
 
+  async reportPetId(newReport: ReportForm, token: string | null) {
+    const responseReportPet: any = await firstValueFrom(
+      this.httpClient.post(`${baseUrl}/sendinblue`, newReport, {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    );
+    return responseReportPet;
+  }
+
   async deletePet(id: string, token: string) {
     const responseDeletePet: any = await firstValueFrom(
       this.httpClient.delete(`${baseUrl}/pet/${id}`, {
@@ -61,7 +73,6 @@ export class PetServices {
         },
       })
     );
-    console.log('Respuesta del back del delete: ', responseDeletePet);
     if (responseDeletePet.petRes) {
       this.pets.update((pets) => pets.filter((pet) => pet.id !== id));
     }
@@ -78,10 +89,6 @@ export class PetServices {
         },
       })
     );
-    console.log(responseDeletePet);
-    // if (responseDeletePet.petRes) {
-    // this.pets.update((pets) => pets.filter((pet) => pet.id !== id));
-    // }
 
     return responseDeletePet;
   }

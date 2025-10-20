@@ -51,7 +51,4 @@ export class AlertComponent {
       icon: `shrink-0 w-4 h-4 ${config.icon}`,
     };
   }
-  ngOnInit() {
-    console.log(this.type, this.message);
-  }
 }

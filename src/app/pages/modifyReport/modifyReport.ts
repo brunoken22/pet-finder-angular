@@ -143,7 +143,6 @@ export class ModifyReportPage {
     };
 
     this.newReport.patchValue(newReportResponse);
-    // console.log('MODIFYReport', newReportResponse);
   }
 
   async urlToFile(url: string, fileName: string, mimeType?: string): Promise<File> {

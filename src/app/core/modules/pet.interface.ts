@@ -28,3 +28,12 @@ export interface ResponseGetPetId {
   success: boolean;
   pet: Pet;
 }
+
+export interface ReportForm {
+  email: string;
+  info: string;
+  namePet: string;
+  nombre: string;
+  nombreRecib: string;
+  tel: string;
+}
