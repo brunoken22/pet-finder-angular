@@ -32,6 +32,10 @@ export class ReportPage implements OnInit {
   private router = inject(Router);
   private cd = inject(ChangeDetectorRef);
 
+  get user() {
+    return this.userService.get()();
+  }
+
   reportPetForId = new FormGroup({
     id: new FormControl('', [Validators.required]),
     fullNamePet: new FormControl('', [Validators.required]),
@@ -46,8 +50,9 @@ export class ReportPage implements OnInit {
 
   handleReportPetModal(id: string) {
     const pet = this.pets.find((pet) => pet.objectID == id);
-    this.reportPetForId.patchValue({ id, fullNamePet: pet?.name });
-    // this.reportPetForId.update((report) => ({ ...report, id, fullNamePet: pet?.name || '' }));
+    const user = this.userService.get()();
+    this.reportPetForId.patchValue({ id, fullNamePet: pet?.name, fullName: user.fullName });
+    // this.reportPetForId.get('fullName')?.disable();
   }
 
   handleCloseModal() {
@@ -56,7 +61,10 @@ export class ReportPage implements OnInit {
 
   async createReportPetid(event: Event) {
     event.preventDefault();
+    console.log('Entrando a createReportPetId');
+
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
+
     const { message, fullName, fullNamePet, id, phone } = this.reportPetForId.value;
     if (!message || !fullName || !fullNamePet || !id || !phone) {
       this.messageReport.set('Todos los campos son obligatorios');

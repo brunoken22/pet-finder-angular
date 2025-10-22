@@ -8,12 +8,15 @@ export const authGuard: CanMatchFn = async (route: Route, _: UrlSegment[]) => {
   const router = inject(Router);
   const localStorageService = inject(LocalStorageService);
   const token = localStorageService.getItem('LOGIN_PET_FINDER');
-  await userService.getUser(token);
-  const user = userService.get();
-
-  if (user().id) {
+  if (token) {
     return true;
   }
+  // await userService.getUser(token);
+  // const user = userService.get();
+
+  // if (user().id) {
+  //   return true;
+  // }
 
   return router.createUrlTree(['/login']);
 };
