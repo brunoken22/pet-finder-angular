@@ -36,7 +36,6 @@ export class SignupPage {
       this.messageReponse.set('Las contraseñas no coinciden');
       return;
     }
-    console.log('Creando usuario');
     this.messageReponse.set('');
 
     const data = {

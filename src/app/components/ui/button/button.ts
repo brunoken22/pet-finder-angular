@@ -17,6 +17,7 @@ export class ButtonComponent {
   @Input() disable = '';
   @Input() handleClick: any = () => {};
   @Input() id = '';
+  @Input() loading: boolean = false;
 
   onClick() {
     this.handleClick();

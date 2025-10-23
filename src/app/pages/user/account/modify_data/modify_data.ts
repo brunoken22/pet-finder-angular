@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../../../components/ui/button/button';
-import { UserService } from '../../../core/services/user.service';
-import { AlertComponent } from '../../../components/ui/alert/alert';
+import { ButtonComponent } from '../../../../components/ui/button/button';
+import { UserService } from '../../../../core/services/user.service';
+import { AlertComponent } from '../../../../components/ui/alert/alert';
 
 @Component({
   templateUrl: './modify_data.html',

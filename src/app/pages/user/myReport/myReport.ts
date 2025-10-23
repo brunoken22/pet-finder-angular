@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { PetServices } from '../../core/services/pets.service';
-import { PetCardComponent } from '../../components/petCard/petCard';
-import { LocalStorageService } from '../../core/services/local-storage.service';
-import { SkeletonCardPet } from '../../components/skeletonCardPet/skeletonCardPet';
+import { PetServices } from '../../../core/services/pets.service';
+import { PetCardComponent } from '../../../components/petCard/petCard';
+import { LocalStorageService } from '../../../core/services/local-storage.service';
+import { SkeletonCardPet } from '../../../components/skeletonCardPet/skeletonCardPet';
 
 @Component({
   templateUrl: './myReport.html',

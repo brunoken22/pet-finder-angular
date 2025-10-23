@@ -40,7 +40,13 @@
   @if(message){
   <p class="text-red-500 my-4">{{ message }}</p>
   }
-  <app-button form="authForm" type="submit" title="Inciar sesión" class="w-full mb-4" />
+  <app-button
+    form="authForm"
+    type="submit"
+    title="Inciar sesión"
+    class="w-full mb-4"
+    [loading]="loading()"
+  />
   <span class="mt-4"
     >No tienes una cuenta?
     <a routerLink="/signup" class="text-blue-500 borde border-b-2">Registrate aqui</a>

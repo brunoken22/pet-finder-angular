@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { ButtonComponent } from '../ui/button/button';
 import { RouterLink } from '@angular/router';
 
@@ -12,10 +12,11 @@ export class PetCardComponent {
   @Input() title = '';
   @Input() location = '';
   @Input() id = '';
+  @Input() owner = true;
+  loading = signal(false);
   @Input() onClickDelete = () => {};
   @Output() deletePet = new EventEmitter<string>();
   @Output() reportPet = new EventEmitter<string>();
-  @Input() owner = true;
 
   handleDeletePet() {
     this.deletePet.emit(this.id);

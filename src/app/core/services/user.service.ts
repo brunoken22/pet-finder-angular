@@ -42,7 +42,6 @@ export class UserService {
   async update(loggedIn: boolean) {
     try {
       // this.user.update((user) => user);
-      console.log('Acutalizando estado de sesion');
       if (!loggedIn) {
         this.user.set({ fullName: '', email: '', id: 0 });
         this.localStorageService.removeItem('LOGIN_PET_FINDER');

@@ -61,7 +61,6 @@ export class ReportPage implements OnInit {
 
   async createReportPetid(event: Event) {
     event.preventDefault();
-    console.log('Entrando a createReportPetId');
 
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
 
@@ -128,7 +127,6 @@ export class ReportPage implements OnInit {
           this.cd.detectChanges();
         },
         (error) => {
-          console.error(error);
           this.router.navigate(['/']);
         }
       );

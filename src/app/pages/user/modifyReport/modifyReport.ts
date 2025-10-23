@@ -3,18 +3,17 @@ import {
   ElementRef,
   Inject,
   inject,
-  Input,
   PLATFORM_ID,
   signal,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleMapsComponent } from '../../components/googleMaps/googleMaps';
-import { ButtonComponent } from '../../components/ui/button/button';
+import { GoogleMapsComponent } from '../../../components/googleMaps/googleMaps';
+import { ButtonComponent } from '../../../components/ui/button/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PetServices } from '../../core/services/pets.service';
-import { LocalStorageService } from '../../core/services/local-storage.service';
-import { UpdatePet } from '../../core/modules/pet.interface';
+import { PetServices } from '../../../core/services/pets.service';
+import { LocalStorageService } from '../../../core/services/local-storage.service';
+import { UpdatePet } from '../../../core/modules/pet.interface';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Component({
@@ -166,7 +165,6 @@ export class ModifyReportPage {
 
       return file;
     } catch (error) {
-      console.error('Error al convertir URL a File:', error);
       throw error;
     }
   }

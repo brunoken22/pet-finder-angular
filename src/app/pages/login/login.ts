@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ButtonComponent } from '../../components/ui/button/button';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
@@ -13,6 +13,7 @@ import { LocalStorageService } from '../../core/services/local-storage.service';
 export class LoginPage {
   private router = inject(Router);
   message = '';
+  loading = signal(false);
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -21,6 +22,7 @@ export class LoginPage {
 
   handleLogin(event: Event) {
     event.preventDefault();
+    this.loading.set(true);
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const email = formData.get('email');

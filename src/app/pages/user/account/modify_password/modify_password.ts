@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { ButtonComponent } from '../../../components/ui/button/button';
-import { AlertComponent } from '../../../components/ui/alert/alert';
-import { UserService } from '../../../core/services/user.service';
-import { AlertType } from '../../../core/modules/alert.interface';
+import { ButtonComponent } from '../../../../components/ui/button/button';
+import { AlertComponent } from '../../../../components/ui/alert/alert';
+import { UserService } from '../../../../core/services/user.service';
+import { AlertType } from '../../../../core/modules/alert.interface';
 
 @Component({
   templateUrl: './modify_password.html',

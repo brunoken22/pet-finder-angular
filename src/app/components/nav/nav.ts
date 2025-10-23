@@ -20,7 +20,6 @@ export class NavComponent implements OnInit {
   }
 
   async handleLogOut() {
-    console.log('Cerrando sesion');
     await this.userService.update(false);
   }
 

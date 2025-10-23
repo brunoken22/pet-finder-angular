@@ -1,11 +1,11 @@
 import { Component, Input, signal } from '@angular/core';
-import { ButtonComponent } from '../../components/ui/button/button';
-import { GoogleMapsComponent } from '../../components/googleMaps/googleMaps';
+import { ButtonComponent } from '../../../components/ui/button/button';
+import { GoogleMapsComponent } from '../../../components/googleMaps/googleMaps';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LocalStorageService } from '../../core/services/local-storage.service';
-import { PetServices } from '../../core/services/pets.service';
-import { CreatePet } from '../../core/modules/pet.interface';
-import { UserService } from '../../core/services/user.service';
+import { LocalStorageService } from '../../../core/services/local-storage.service';
+import { PetServices } from '../../../core/services/pets.service';
+import { CreatePet } from '../../../core/modules/pet.interface';
+import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 

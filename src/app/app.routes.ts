@@ -2,17 +2,17 @@ import { Routes } from '@angular/router';
 import { HomePage } from './pages/home/home';
 import { LoginPage } from './pages/login/login';
 import { SignupPage } from './pages/signup/signup';
-import { AccountPage } from './pages/account/account';
-import { MyReportPage } from './pages/myReport/myReport';
-import { NewReportPage } from './pages/newReport/newReport';
-import { ModifyDataPage } from './pages/account/modify_data/modify_data';
-import { ModifyPasswordPage } from './pages/account/modify_password/modify_password';
 import { authGuard } from './core/guards/auth-guard';
 import { notAuthGuard } from './core/guards/no_auth-guard';
 import { ReportPage } from './pages/report/report';
 import { locationReportGuard } from './core/guards/location-report';
 // import { LoadingPages } from './components/loadingPages/loadingPages';
 import NotFound from './pages/notFound/notFound';
+import { AccountPage } from './pages/user/account/account';
+import { ModifyDataPage } from './pages/user/account/modify_data/modify_data';
+import { ModifyPasswordPage } from './pages/user/account/modify_password/modify_password';
+import { MyReportPage } from './pages/user/myReport/myReport';
+import { NewReportPage } from './pages/user/newReport/newReport';
 
 export const routes: Routes = [
   {
@@ -65,7 +65,7 @@ export const routes: Routes = [
     path: 'modifyReport/:id',
     title: 'NModificar Reporte | Pet Finder',
     loadComponent: () =>
-      import('./pages/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
+      import('./pages/user/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
     data: {
       renderMode: 'server',
     },
