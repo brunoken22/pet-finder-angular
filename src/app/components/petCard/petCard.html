@@ -44,6 +44,7 @@
         color="red"
         id="{{ this.id }}"
         [handleClick]="handleDeletePet.bind(this)"
+        [loading]="loading()"
       />
       } @else {
       <app-button

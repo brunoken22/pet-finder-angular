@@ -63,7 +63,7 @@ export const routes: Routes = [
   {
     canMatch: [authGuard],
     path: 'modifyReport/:id',
-    title: 'NModificar Reporte | Pet Finder',
+    title: 'Modificar Reporte | Pet Finder',
     loadComponent: () =>
       import('./pages/user/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
     data: {
