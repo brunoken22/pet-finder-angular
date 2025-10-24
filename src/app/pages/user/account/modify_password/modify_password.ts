@@ -10,11 +10,14 @@ import { AlertType } from '../../../../core/modules/alert.interface';
 })
 export class ModifyPasswordPage {
   alertData = signal<{ type: AlertType; message: string }>({ type: 'success', message: '' });
+  loading = signal<boolean>(false);
 
   constructor(private userService: UserService) {}
 
   handleSubmit(event: Event) {
     event.preventDefault();
+    this.loading.update(() => true);
+
     const form = event.target as HTMLFormElement;
 
     const formData = new FormData(form);
@@ -25,17 +28,19 @@ export class ModifyPasswordPage {
         type: 'danger',
         message: 'Las contraseñas no pueden estar vacías',
       }));
+      this.loading.update(() => false);
+
       return;
     }
     if (newPassword !== repeatPassword) {
-      this.alertData.update((data) => ({
+      this.alertData.update(() => ({
         type: 'danger',
         message: 'Las contraseñas no coinciden',
       }));
+      this.loading.update(() => false);
+
       return;
     }
-
-    // this.alertData.message = '';
 
     this.userService
       .updateUser({
@@ -46,6 +51,8 @@ export class ModifyPasswordPage {
       .subscribe({
         next: (response: any) => {
           if (response?.user) {
+            this.loading.update(() => false);
+
             this.alertData.update((_) => ({
               type: 'success',
               message: 'Se actualizo la contraseña correctamente',
