@@ -37,4 +37,5 @@ export interface ReportForm {
   nombre: string;
   nombreRecib: string;
   tel: string;
+  id: string;
 }

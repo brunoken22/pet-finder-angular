@@ -53,7 +53,9 @@ export class ReportPage implements OnInit {
     const pet = this.pets.find((pet) => pet.objectID == id);
     const user = this.userService.get()();
     this.reportPetForId.patchValue({ id, fullNamePet: pet?.name, fullName: user.fullName });
-    this.reportPetForId.get('fullName')?.disable();
+    if (user.fullName) {
+      this.reportPetForId.get('fullName')?.disable();
+    }
   }
 
   handleCloseModal() {
@@ -67,13 +69,13 @@ export class ReportPage implements OnInit {
     const fullName = this.reportPetForId.get('fullName')?.value;
     const { message, fullNamePet, id, phone } = this.reportPetForId.value;
     const userPet = this.pets.find((pet) => pet.objectID == id);
-
     if (!message || !fullName || !fullNamePet || !id || !phone || !userPet) {
       this.messageReport.set('Todos los campos son obligatorios');
       this.loadingCreateReport.update(() => false);
       return;
     }
     const reportData: ReportForm = {
+      id: id,
       email: userPet.email,
       info: message,
       namePet: fullNamePet,

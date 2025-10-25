@@ -84,7 +84,7 @@
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2">
               <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900"
-                >Nombre</label
+                >Nombre <span class="text-red-600">*</span></label
               >
               <input
                 type="text"
@@ -97,11 +97,10 @@
                 placeholder="Bruno Ken"
                 required
               />
-              <output for="fullName">este es el output</output>
             </div>
             <div class="col-span-2">
               <label for="price" class="block mb-2 text-sm font-medium text-gray-900"
-                >Teléfono</label
+                >Teléfono <span class="text-red-600">*</span></label
               >
               <input
                 type="number"
@@ -110,12 +109,12 @@
                 formControlName="phone"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="123456789"
-                required=""
+                required
               />
             </div>
             <div class="col-span-2">
               <label for="description" class="block mb-2 text-sm font-medium text-gray-900"
-                >Dónde lo viste?</label
+                >Dónde lo viste? <span class="text-red-600">*</span></label
               >
               <textarea
                 id="description"
@@ -123,6 +122,7 @@
                 formControlName="message"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Lo vi en Buenos Aires, cerca del parque..."
+                required
               ></textarea>
             </div>
           </div>
