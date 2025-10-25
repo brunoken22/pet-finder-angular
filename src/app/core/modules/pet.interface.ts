@@ -8,6 +8,7 @@ export interface Pet {
   createdAt: Date;
   updatedAt: Date;
   UserId: number;
+  email: string;
   objectID: string;
 }
 

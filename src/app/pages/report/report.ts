@@ -14,7 +14,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ButtonComponent } from '../../components/ui/button/button';
-import { delay } from 'rxjs';
 
 @Component({
   templateUrl: './report.html',
@@ -67,12 +66,13 @@ export class ReportPage implements OnInit {
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
     const fullName = this.reportPetForId.get('fullName')?.value;
     const { message, fullNamePet, id, phone } = this.reportPetForId.value;
-    if (!message || !fullName || !fullNamePet || !id || !phone) {
+    const userPet = this.pets.find((pet) => pet.objectID == id);
+
+    if (!message || !fullName || !fullNamePet || !id || !phone || !userPet) {
       this.messageReport.set('Todos los campos son obligatorios');
       this.loadingCreateReport.update(() => false);
       return;
     }
-    const userPet = this.userService.get()();
     const reportData: ReportForm = {
       email: userPet.email,
       info: message,
