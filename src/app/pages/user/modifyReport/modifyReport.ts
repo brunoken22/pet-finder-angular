@@ -38,20 +38,20 @@ export class ModifyReportPage {
   validation = '';
   isSubmitting = false;
   isPet = '';
+  loading = signal(false);
 
   @ViewChild('photoRef') photoRef!: ElementRef<HTMLInputElement | null>;
 
   async handleSubmit(event: Event) {
     event.preventDefault();
+    this.loading.update(() => true);
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
     if (!token) {
+      this.loading.update(() => false);
       this.validation = 'Faltan datos para actualizar';
       return;
     }
-    // const form = event.target as HTMLFormElement;
-    // const formData = new FormData(form);
-    // const photo = formData.get('photo');
-    // const base64Image = await this.convertImageToBase64(photo as File);
+
     const updatePet: UpdatePet = {
       ...this.newReport.value.center!,
       img: this.newReport.value.photoLink!,
@@ -62,6 +62,8 @@ export class ModifyReportPage {
     const responseUpdatePet = await this.petService.updatePet(this.id(), updatePet, token);
     if (responseUpdatePet?.message && responseUpdatePet?.message !== 'Todo Ok') {
       this.validation = responseUpdatePet.message;
+      this.loading.update(() => false);
+
       return;
     }
     this.router.navigate(['myReport']);

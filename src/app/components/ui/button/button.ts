@@ -15,11 +15,11 @@ export class ButtonComponent {
   @Input() color?: ButtonType = 'default';
   @Input() routerLink = '';
   @Input() disable = '';
-  @Input() handleClick: any = () => {};
+  @Input() handleClick: any = async () => {};
   @Input() id = '';
   @Input() loading: boolean = false;
 
-  onClick() {
-    this.handleClick();
+  async onClick() {
+    await this.handleClick();
   }
 }

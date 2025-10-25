@@ -23,17 +23,21 @@ export class SignupPage {
   });
 
   messageReponse = signal('');
+  loading = signal(false);
 
   async handleCreateUser(event: Event) {
     event.preventDefault();
+    this.loading.update(() => true);
     const { email, password, repeatPassword, firstName, lastName } = this.newFormUser.value;
     if (!email || !password || !repeatPassword || !firstName || !lastName) {
       this.messageReponse.set('Por favor complete todos los campos');
+      this.loading.update(() => false);
       return;
     }
 
     if (password.trim() !== repeatPassword.trim()) {
       this.messageReponse.set('Las contraseñas no coinciden');
+      this.loading.update(() => false);
       return;
     }
     this.messageReponse.set('');
@@ -44,6 +48,7 @@ export class SignupPage {
       password: password,
     };
     const responseCreateUser: any = await this.userService.createUser(data);
+    this.loading.update(() => false);
     if (responseCreateUser?.token) {
       this.localStorageService.setItem('LOGIN_PET_FINDER', responseCreateUser.token);
       await this.userService.update(true);

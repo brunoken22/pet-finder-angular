@@ -2,7 +2,7 @@
   <h1 class="mb-8 font-bold text-3xl text-center">
     Modificar reporte ({{ this.newReport.value.fullName }})
   </h1>
-  <form action="" [formGroup]="newReport" id="newReport" (submit)="handleSubmit($event)">
+  <form [formGroup]="newReport" id="newReport" (submit)="handleSubmit($event)">
     <div class="relative z-0 w-full mb-5 group">
       <input
         type="text"
@@ -35,19 +35,6 @@
           />
         </div>
         }
-
-        <!--   <input
-          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-          aria-describedby="user_avatar_help"
-          name="photo"
-          for="photo"
-          id="photo"
-          type="file"
-          formArrayName="photo"
-          #photoRef
-          required
-        />
-         -->
         <div class="flex items-center justify-center w-full">
           <label
             for="dropzone-file"
@@ -105,6 +92,12 @@
     @if (validation) {
     <p class="text-red-500 text-center my-4">Por favor, complete todos los campos requeridos.</p>
     }
-    <app-button type="submit" title="Reportar" class="mt-8" form="newReport" />
+    <app-button
+      type="submit"
+      title="Reportar"
+      class="mt-8"
+      form="newReport"
+      [loading]="loading()"
+    />
   </form>
 </div>

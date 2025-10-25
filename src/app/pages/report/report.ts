@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ButtonComponent } from '../../components/ui/button/button';
+import { delay } from 'rxjs';
 
 @Component({
   templateUrl: './report.html',
@@ -47,12 +48,13 @@ export class ReportPage implements OnInit {
   messageReport = signal('');
   pets: Pet[] | [] = [];
   loading = true;
+  loadingCreateReport = signal(false);
 
-  handleReportPetModal(id: string) {
+  async handleReportPetModal(id: any) {
     const pet = this.pets.find((pet) => pet.objectID == id);
     const user = this.userService.get()();
     this.reportPetForId.patchValue({ id, fullNamePet: pet?.name, fullName: user.fullName });
-    // this.reportPetForId.get('fullName')?.disable();
+    this.reportPetForId.get('fullName')?.disable();
   }
 
   handleCloseModal() {
@@ -61,12 +63,13 @@ export class ReportPage implements OnInit {
 
   async createReportPetid(event: Event) {
     event.preventDefault();
-
+    this.loadingCreateReport.update(() => true);
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
-
-    const { message, fullName, fullNamePet, id, phone } = this.reportPetForId.value;
+    const fullName = this.reportPetForId.get('fullName')?.value;
+    const { message, fullNamePet, id, phone } = this.reportPetForId.value;
     if (!message || !fullName || !fullNamePet || !id || !phone) {
       this.messageReport.set('Todos los campos son obligatorios');
+      this.loadingCreateReport.update(() => false);
       return;
     }
     const userPet = this.userService.get()();
@@ -78,8 +81,9 @@ export class ReportPage implements OnInit {
       nombreRecib: fullName,
       tel: phone.toString(),
     };
-
     const responseDeletePet = await this.petServices.reportPetId(reportData, token);
+    this.loadingCreateReport.update(() => false);
+
     if (responseDeletePet?.send?.code) {
       this.messageReport.set('Error al enviar el reporte, intente nuevamente o contáctenos');
       return;

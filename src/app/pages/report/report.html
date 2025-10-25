@@ -53,7 +53,12 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form class="p-4 md:p-5" [formGroup]="reportPetForId" (submit)="createReportPetid($event)">
+        <form
+          class="p-4 md:p-5"
+          [formGroup]="reportPetForId"
+          id="reportPetForId"
+          (submit)="createReportPetid($event)"
+        >
           @if(messageReport()){
           <div
             class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
@@ -121,7 +126,12 @@
               ></textarea>
             </div>
           </div>
-          <app-button title="Reportar" type="submit" form="reportPetForId" />
+          <app-button
+            title="Reportar"
+            type="submit"
+            form="reportPetForId"
+            [loading]="loadingCreateReport()"
+          />
         </form>
       </div>
     </div>

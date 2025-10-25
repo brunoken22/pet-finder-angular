@@ -32,6 +32,7 @@ export class NewReportPage {
 
   validation = '';
   isSubmitting = false;
+  loading = signal(false);
 
   // Método para obtener controles fácilmente
   get f() {
@@ -40,10 +41,11 @@ export class NewReportPage {
 
   async handleSubmit(event: Event) {
     event.preventDefault();
-
+    this.loading.update(() => true);
     // Validar formulario
     const validate = this.validationForm();
     if (validate) {
+      this.loading.update(() => false);
       this.validation = validate;
       return;
     } else {
@@ -53,12 +55,16 @@ export class NewReportPage {
     // Validar token
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
     if (!token) {
+      this.loading.update(() => false);
+
       this.validation = 'Debe iniciar sesión nuevamente';
       return;
     }
 
     const user = this.userService.get()();
     if (!user) {
+      this.loading.update(() => false);
+
       this.validation = 'Usuario no encontrado';
       return;
     }
@@ -85,7 +91,7 @@ export class NewReportPage {
         this.router.navigate(['/myReport']);
       }
     } catch (error) {
-      console.error('Error al reportar mascota:', error);
+      this.loading.update(() => false);
       this.validation = 'Error al procesar la imagen. Intente nuevamente.';
     } finally {
       this.isSubmitting = false;

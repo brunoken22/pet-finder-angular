@@ -45,6 +45,12 @@
     @if (validation) {
     <p class="text-red-500 text-center my-4">Por favor, complete todos los campos requeridos.</p>
     }
-    <app-button type="submit" title="Reportar" class="mt-8" form="newReport" />
+    <app-button
+      type="submit"
+      title="Reportar"
+      class="mt-8"
+      form="newReport"
+      [loading]="loading()"
+    />
   </form>
 </div>

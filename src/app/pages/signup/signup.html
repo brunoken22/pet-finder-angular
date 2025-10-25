@@ -117,7 +117,13 @@
       </div>
     </div>
   </form>
-  <app-button type="submit" title="Crear cuenta" class="w-full" form="newFormUser" />
+  <app-button
+    type="submit"
+    title="Crear cuenta"
+    class="w-full"
+    form="newFormUser"
+    [loading]="loading()"
+  />
   <span class="mt-4"
     >Ya tienes una cuenta?
     <a routerLink="/login" class="text-blue-500 borde border-b-2">Iniciar sesión</a>
