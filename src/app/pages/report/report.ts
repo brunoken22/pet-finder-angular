@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { PetServices } from '../../core/services/pets.service';
 import { PetCardComponent } from '../../components/petCard/petCard';
 import { LocalStorageService } from '../../core/services/local-storage.service';
@@ -25,7 +25,7 @@ import { ButtonComponent } from '../../components/ui/button/button';
     ButtonComponent,
   ],
 })
-export class ReportPage implements OnInit {
+export class ReportPage {
   private localStorageService = inject(LocalStorageService);
   private petServices = inject(PetServices);
   private userService = inject(UserService);
@@ -45,12 +45,23 @@ export class ReportPage implements OnInit {
   });
 
   messageReport = signal('');
-  pets: Pet[] | [] = [];
-  loading = true;
+  pets = signal<Pet[]>([]);
+  loading = signal(false);
   loadingCreateReport = signal(false);
+  rangePets = signal('');
+
+  getPetsEffectRange = effect(() => {
+    this.rangePets();
+    this.getPetsAround();
+  });
+
+  handleChangeRange(event: Event) {
+    const target = event.currentTarget as HTMLInputElement;
+    this.rangePets.update(() => target.value);
+  }
 
   async handleReportPetModal(id: any) {
-    const pet = this.pets.find((pet) => pet.objectID == id);
+    const pet = this.pets().find((pet) => pet.objectID == id);
     const user = this.userService.get()();
     this.reportPetForId.patchValue({ id, fullNamePet: pet?.name, fullName: user.fullName });
     if (user.fullName) {
@@ -68,7 +79,7 @@ export class ReportPage implements OnInit {
     const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
     const fullName = this.reportPetForId.get('fullName')?.value;
     const { message, fullNamePet, id, phone } = this.reportPetForId.value;
-    const userPet = this.pets.find((pet) => pet.objectID == id);
+    const userPet = this.pets().find((pet) => pet.objectID == id);
     if (!message || !fullName || !fullNamePet || !id || !phone || !userPet) {
       this.messageReport.set('Todos los campos son obligatorios');
       this.loadingCreateReport.update(() => false);
@@ -94,48 +105,55 @@ export class ReportPage implements OnInit {
     return responseDeletePet;
   }
 
-  async ngOnInit() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          if (
-            !latitude ||
-            !longitude ||
-            typeof latitude !== 'number' ||
-            typeof longitude !== 'number'
-          ) {
-            this.router.navigate(['home']);
-            return;
-          }
+  // async ngOnInit() {
+  //   if (navigator.geolocation) {
+  //     this.getPetsAround();
+  //   }
+  // }
 
-          // Esperar a que el usuario esté cargado
-          let retries = 0;
-          const maxRetries = 10;
-          while (!this.userService.get()().email && retries < maxRetries) {
-            await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar 100ms
-            retries++;
-          }
-
-          const emailUser = this.userService.get()().email;
-
-          const dataPets = (await this.petServices.getPetsUbication(
-            latitude,
-            longitude,
-            emailUser
-          )) as any;
-          if (!dataPets[0]?.hits?.length) {
-            return;
-          }
-
-          this.pets = dataPets[0].hits;
-          this.loading = false;
-          this.cd.detectChanges();
-        },
-        (error) => {
-          this.router.navigate(['/']);
+  getPetsAround() {
+    this.loading.update(() => true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        if (
+          !latitude ||
+          !longitude ||
+          typeof latitude !== 'number' ||
+          typeof longitude !== 'number'
+        ) {
+          this.router.navigate(['home']);
+          return;
         }
-      );
-    }
+
+        // Esperar a que el usuario esté cargado
+        let retries = 0;
+        const maxRetries = 10;
+        while (!this.userService.get()().email && retries < maxRetries) {
+          await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar 100ms
+          retries++;
+        }
+
+        const emailUser = this.userService.get()().email;
+
+        const dataPets = (await this.petServices.getPetsUbication(
+          latitude,
+          longitude,
+          emailUser,
+          this.rangePets()
+        )) as any;
+        this.loading.update(() => false);
+
+        if (!dataPets[0]?.hits?.length) {
+          return;
+        }
+
+        this.pets.set(dataPets[0].hits);
+        this.cd.detectChanges();
+      },
+      (error) => {
+        this.router.navigate(['/']);
+      }
+    );
   }
 }

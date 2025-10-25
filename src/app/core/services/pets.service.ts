@@ -26,10 +26,10 @@ export class PetServices {
     return responseGetPet as ResponseGetPetId;
   }
 
-  async getPetsUbication(latitude: number, longitude: number, email: string) {
+  async getPetsUbication(latitude: number, longitude: number, email: string, range: string) {
     const responsGerPetUbication = await firstValueFrom(
       this.httpClient.get(
-        `${baseUrl}/pet-cerca-de?lat=${latitude}&lng=${longitude}&email=${email}`,
+        `${baseUrl}/pet-cerca-de?lat=${latitude}&lng=${longitude}&email=${email}&range=${range}`,
         {
           headers: {
             'content-type': 'application/json',
