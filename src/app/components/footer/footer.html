@@ -6,13 +6,13 @@
     <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0">
       @if(user().id){
       <li>
-        <a routerLink="/account" class="hover:underline me-4 md:me-6">Mis datos</a>
+        <a routerLink="/user/account" class="hover:underline me-4 md:me-6">Mis datos</a>
       </li>
       <li>
-        <a routerLink="/myReport" class="hover:underline me-4 md:me-6">Mis mascotas</a>
+        <a routerLink="/user/myReport" class="hover:underline me-4 md:me-6">Mis mascotas</a>
       </li>
       <li>
-        <a routerLink="/newReport" class="hover:underline me-4 md:me-6">Reportar</a>
+        <a routerLink="/user/newReport" class="hover:underline me-4 md:me-6">Reportar</a>
       </li>
       }@else {
       <li>

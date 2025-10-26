@@ -38,7 +38,7 @@ export class LoginPage {
           this.userService.get().set({ ...respuesta?.auth });
           this.localStorageService.setItem('LOGIN_PET_FINDER', respuesta.token);
           this.userService.update(true);
-          this.router.navigate(['/account']);
+          this.router.navigate(['/user/account']);
         }
 
         this.message = respuesta.message;

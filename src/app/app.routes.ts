@@ -39,36 +39,38 @@ export const routes: Routes = [
   },
   {
     canMatch: [authGuard],
-    path: 'account',
-    component: AccountPage,
+    path: 'user',
     children: [
-      { path: '', redirectTo: 'modifyData', pathMatch: 'full' },
-      { path: 'modifyData', component: ModifyDataPage },
-      { path: 'modifyPassword', component: ModifyPasswordPage },
-    ],
-  },
+      {
+        path: 'account',
+        component: AccountPage,
+        children: [
+          { path: '', redirectTo: 'modifyData', pathMatch: 'full' },
+          { path: 'modifyData', component: ModifyDataPage },
+          { path: 'modifyPassword', component: ModifyPasswordPage },
+        ],
+      },
 
-  {
-    canMatch: [authGuard],
-    path: 'myReport',
-    component: MyReportPage,
-    title: 'Mis reportes | Pet Finder',
-  },
-  {
-    canMatch: [authGuard],
-    path: 'newReport',
-    component: NewReportPage,
-    title: 'Nuevo reporte | Pet Finder',
-  },
-  {
-    canMatch: [authGuard],
-    path: 'modifyReport/:id',
-    title: 'Modificar Reporte | Pet Finder',
-    loadComponent: () =>
-      import('./pages/user/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
-    data: {
-      renderMode: 'server',
-    },
+      {
+        path: 'myReport',
+        component: MyReportPage,
+        title: 'Mis reportes | Pet Finder',
+      },
+      {
+        path: 'newReport',
+        component: NewReportPage,
+        title: 'Nuevo reporte | Pet Finder',
+      },
+      {
+        path: 'modifyReport/:id',
+        title: 'Modificar Reporte | Pet Finder',
+        loadComponent: () =>
+          import('./pages/user/modifyReport/modifyReport').then((c) => c.ModifyReportPage),
+        data: {
+          renderMode: 'server',
+        },
+      },
+    ],
   },
   {
     path: '**',

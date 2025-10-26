@@ -88,7 +88,7 @@ export class NewReportPage {
       const response: any = await this.petService.createPet(newPet);
       if (response.pet) {
         this.petService.pets.update((pets) => [...pets, response.pet]);
-        this.router.navigate(['/myReport']);
+        this.router.navigate(['/user/myReport']);
       }
     } catch (error) {
       this.loading.update(() => false);
