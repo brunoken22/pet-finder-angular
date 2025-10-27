@@ -105,12 +105,6 @@ export class ReportPage {
     return responseDeletePet;
   }
 
-  // async ngOnInit() {
-  //   if (navigator.geolocation) {
-  //     this.getPetsAround();
-  //   }
-  // }
-
   getPetsAround() {
     this.loading.update(() => true);
     navigator.geolocation.getCurrentPosition(

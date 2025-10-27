@@ -23,11 +23,12 @@ export class NavComponent implements OnInit {
     await this.userService.update(false);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(() => {
+      const geolocation = await navigator.permissions.query({ name: 'geolocation' });
+      if (geolocation.state === 'granted') {
         this.activeReport.update(() => true);
-      });
+      }
     }
   }
 }
