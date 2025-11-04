@@ -145,7 +145,7 @@ export class ReportPage {
         this.pets.set(dataPets[0].hits);
         this.cd.detectChanges();
       },
-      (error) => {
+      () => {
         this.router.navigate(['/']);
       }
     );
