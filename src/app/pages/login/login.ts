@@ -12,7 +12,7 @@ import { LocalStorageService } from '../../core/services/local-storage.service';
 })
 export class LoginPage {
   private router = inject(Router);
-  message = '';
+  message = signal('');
   loading = signal(false);
   constructor(
     private userService: UserService,
@@ -28,23 +28,25 @@ export class LoginPage {
     const email = formData.get('email');
     const password = formData.get('password');
     if (!email && !password) {
-      this.message = 'Por favor ingrese un email y una contraseña';
+      this.message.set('Por favor ingrese un email y una contraseña');
       return;
     }
 
     this.authService.signin(email as string, password as string).subscribe({
       next: (respuesta: any) => {
+        console.log('ESTA ES LA RESPUESTA ', respuesta);
         if (respuesta?.token) {
           this.userService.get().set({ ...respuesta?.auth });
           this.localStorageService.setItem('LOGIN_PET_FINDER', respuesta.token);
           this.userService.update(true);
           this.router.navigate(['/user/account']);
         }
-
-        this.message = respuesta.message;
+        this.loading.set(false);
+        this.message.set(respuesta.message);
       },
       error: (error) => {
-        this.message = error.message;
+        this.loading.set(false);
+        this.message.set(error.message);
         return error;
       },
     });

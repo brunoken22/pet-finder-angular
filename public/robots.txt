@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pet-finder-angular.netlify.app/sitemap.xml
