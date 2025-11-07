@@ -1,6 +1,6 @@
 [build]
   command = "ng build"
-  publish = "dist/pet-finder-angular"
+  publish = "dist/pet-finder-angular/browser"
 
 [[redirects]]
   from = "/*"
