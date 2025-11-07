@@ -21,9 +21,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -79,9 +77,15 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
+          }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/pet-finder-angular",
+            "netlifyToken": "nfp_St5SLZpG64ENL4Nek8S3VPdi3eNzgP6q5248",
+            "siteId": "7d2efdc1-7d1e-4648-a9ba-6bb25e54121e"
           }
         }
       }

@@ -1,3 +1,7 @@
+[build]
+  command = "ng build"
+  publish = "dist/pet-finder-angular"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
