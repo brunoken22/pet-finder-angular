@@ -16,9 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()), // Asegúrate de incluir withFetch aquí también
-    // {
-    //   provide: LocationStrategy,
-    //   useClass: PathLocationStrategy,
-    // },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
   ],
 };
