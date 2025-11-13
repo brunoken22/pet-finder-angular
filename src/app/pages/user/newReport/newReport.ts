@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { ButtonComponent } from '../../../components/ui/button/button';
 import { GoogleMapsComponent } from '../../../components/googleMaps/googleMaps';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-report',
   templateUrl: './newReport.html',
-  imports: [GoogleMapsComponent, ButtonComponent, ReactiveFormsModule, CommonModule],
+  imports: [ButtonComponent, ReactiveFormsModule, CommonModule, GoogleMapsComponent],
 })
 export class NewReportPage {
   constructor(
@@ -97,7 +97,6 @@ export class NewReportPage {
       this.isSubmitting = false;
     }
   }
-
   onCenterChange(event: google.maps.LatLngLiteral) {
     this.center = event;
   }

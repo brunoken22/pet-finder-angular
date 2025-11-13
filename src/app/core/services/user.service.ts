@@ -28,6 +28,16 @@ export class UserService {
     return this.user;
   }
 
+  async getAuthUser(): Promise<Boolean> {
+    const token = this.localStorageService.getItem('LOGIN_PET_FINDER');
+    const response = await this.getUser(token);
+    if (response) {
+      return true;
+    }
+
+    return false;
+  }
+
   async createUser(userCreate: UpdateUser) {
     const response = await firstValueFrom(
       this.httpClient.post(`${baseUrl}/auth`, userCreate, {
@@ -41,7 +51,6 @@ export class UserService {
 
   async update(loggedIn: boolean) {
     try {
-      // this.user.update((user) => user);
       if (!loggedIn) {
         this.user.set({ fullName: '', email: '', id: 0 });
         this.localStorageService.removeItem('LOGIN_PET_FINDER');

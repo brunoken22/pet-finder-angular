@@ -5,7 +5,7 @@
   width="100%"
   (mapClick)="addMarker($event)"
 >
-  <map-marker [position]="newReportForm?.value.center" [options]="markerOptions" />
+  <map-marker [position]="newReportForm?.value.center" />
 </google-map>
 
 @if(newReportForm?.value.googleMaps){

@@ -1,10 +1,16 @@
-import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
-import { UserService } from '../services/user.service';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateChildFn,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { inject } from '@angular/core';
 import { LocalStorageService } from '../services/local-storage.service';
 
-export const authGuard: CanMatchFn = async (route: Route, _: UrlSegment[]) => {
-  const userService = inject(UserService);
+export const authGuard: CanActivateChildFn = async (
+  childRoute: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
   const router = inject(Router);
   const localStorageService = inject(LocalStorageService);
   const token = localStorageService.getItem('LOGIN_PET_FINDER');

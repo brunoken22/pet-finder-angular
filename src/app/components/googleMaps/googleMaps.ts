@@ -1,29 +1,35 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import {
   ɵInternalFormsSharedModule,
   ReactiveFormsModule,
   FormGroup,
   FormGroupDirective,
 } from '@angular/forms';
-import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMap, GoogleMapsModule, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-google-maps',
   templateUrl: './googleMaps.html',
-  imports: [GoogleMap, GoogleMapsModule, ɵInternalFormsSharedModule, ReactiveFormsModule],
+  imports: [
+    GoogleMapsModule,
+    GoogleMap,
+    ɵInternalFormsSharedModule,
+    ReactiveFormsModule,
+    MapMarker,
+  ],
 })
-export class GoogleMapsComponent {
+export class GoogleMapsComponent implements OnInit {
   @Input() newReportForm: FormGroup | null = null;
   @Output() centerChange = new EventEmitter<google.maps.LatLngLiteral>();
 
   zoom = 12;
-  markerOptions: google.maps.MarkerOptions = { draggable: false };
 
   private geocoder = new google.maps.Geocoder();
   private formGroupDirective = inject(FormGroupDirective);
 
   ngOnInit() {
-    // Usar el formulario del padre a través del FormGroupDirective
+    console.log('PRIMERO PASANDO POR EL AFTER 2 ');
+
     this.newReportForm = this.formGroupDirective.form;
   }
 

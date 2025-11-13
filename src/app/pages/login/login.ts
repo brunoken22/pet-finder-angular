@@ -14,6 +14,7 @@ export class LoginPage {
   private router = inject(Router);
   message = signal('');
   loading = signal(false);
+
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -34,7 +35,6 @@ export class LoginPage {
 
     this.authService.signin(email as string, password as string).subscribe({
       next: (respuesta: any) => {
-        console.log('ESTA ES LA RESPUESTA ', respuesta);
         if (respuesta?.token) {
           this.userService.get().set({ ...respuesta?.auth });
           this.localStorageService.setItem('LOGIN_PET_FINDER', respuesta.token);

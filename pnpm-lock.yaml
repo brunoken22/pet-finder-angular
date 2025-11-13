@@ -53,6 +53,12 @@ importers:
       flowbite:
         specifier: ^3.1.2
         version: 3.1.2(rollup@4.52.3)
+      ngx-cookie-service:
+        specifier: ^20.1.1
+        version: 20.1.1(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))
+      ngx-cookie-service-ssr:
+        specifier: ^20.1.1
+        version: 20.1.1(a706eb37ce5cdadd3aa787eb15de2ffd)
       ngx-google-places-autocomplete:
         specifier: ^2.0.5
         version: 2.0.5(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))
@@ -2905,6 +2911,19 @@ packages:
   netlify@6.1.29:
     resolution: {integrity: sha512-Xr26CcTLt7ChN2cWysCWbAItJHmTufVhVkF3VEd25uOtBNufvg674Amw6bkyWwvfGJzrNP+tj07YVtsQGdlOZQ==}
     engines: {node: '>=8.3.0'}
+
+  ngx-cookie-service-ssr@20.1.1:
+    resolution: {integrity: sha512-lCVhtz1tvfifJnnPX69e6fg7onqs9obYPIeg7sOEZNxPahMWSVFNIFBGLPxWHFj6YyLk4V4bGG1CBJn43/u5oA==}
+    peerDependencies:
+      '@angular/common': ^20.0.0
+      '@angular/core': ^20.0.0
+      '@angular/ssr': ^20.0.0
+
+  ngx-cookie-service@20.1.1:
+    resolution: {integrity: sha512-jGjjIqu+Kt8De6YjDqTQOaUHKB7gYs0eaDuLyXfNhfKnA78lA7D7oWcaIzjkmXhRqTnh2/ex1UHmZHN9MX0yoQ==}
+    peerDependencies:
+      '@angular/common': ^20.0.0
+      '@angular/core': ^20.0.0
 
   ngx-google-places-autocomplete@2.0.5:
     resolution: {integrity: sha512-TApaE+X/eaZBDduXvmOMsMC5FTWv3CmgbZ+Iv7NsnrBWJeonPF2SYMGs3vaydM3CY3Rch14/K94ecU0mfyRVWw==}
@@ -6790,6 +6809,19 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  ngx-cookie-service-ssr@20.1.1(a706eb37ce5cdadd3aa787eb15de2ffd):
+    dependencies:
+      '@angular/common': 20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)
+      '@angular/ssr': 20.3.9(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(@angular/platform-server@20.3.10(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/compiler@20.3.10)(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(@angular/platform-browser@20.3.10(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/router@20.3.10(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(@angular/platform-browser@20.3.10(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)))(rxjs@7.8.2))
+      tslib: 2.8.1
+
+  ngx-cookie-service@20.1.1(@angular/common@20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)):
+    dependencies:
+      '@angular/common': 20.3.10(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)
+      tslib: 2.8.1
 
   ngx-google-places-autocomplete@2.0.5(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)):
     dependencies:

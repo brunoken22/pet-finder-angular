@@ -38,7 +38,7 @@ export const routes: Routes = [
     component: ReportPage,
   },
   {
-    canMatch: [authGuard],
+    // canActivateChild: [authGuard],
     path: 'user',
     children: [
       {
